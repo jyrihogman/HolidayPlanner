@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+using HolidayPlanner.DateLogic;
 
-namespace HolidayPlanner.DateLogic
+namespace HolidayPlanner.HolidayLogic
 {
-
     static class Country
     {
         public const string Finland = "Finland";
@@ -13,10 +11,24 @@ namespace HolidayPlanner.DateLogic
         public static IReadOnlyCollection<string> SupportedCountries = new [] { Finland };
     }
 
-    public static class HolidayPlannerService
+    public static class HolidayService
     {
-
         private const int MaxDayCount = 50;
+
+        public static bool IsRangeChronological(DateTime start, DateTime end)
+        {
+            return start < end;
+        }
+
+        public static bool IsOnSameHolidayPeriod(DateTime start, DateTime end)
+        {
+            if (start < new DateTime(start.Year, 4, 1))
+            {
+                return end < new DateTime(start.Year, 4, 1);
+            }
+
+            return end < new DateTime(start.Year + 1, 4, 1);
+        }
 
         public static IReadOnlyCollection<DateTime> GetConsumedHolidays(
             DateTime start,
@@ -39,7 +51,7 @@ namespace HolidayPlanner.DateLogic
             return holidays;
         }
 
-        public static bool IsHolidayValid(int holidayCount)
+        public static bool IsHolidayLengthValid(int holidayCount)
         {
             return holidayCount <= MaxDayCount;
         }

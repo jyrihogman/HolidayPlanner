@@ -17,17 +17,17 @@ namespace HolidayPlanner.DateLogic
             new DateTime(2021, 12, 6),
             new DateTime(2021, 12, 24),
             new DateTime(2022, 1, 1),
-            new DateTime(2021, 1, 6),
-            new DateTime(2021, 4, 15),
-            new DateTime(2021, 4, 18),
-            new DateTime(2021, 5, 1),
-            new DateTime(2021, 5, 26),
-            new DateTime(2021, 6, 5),
-            new DateTime(2021, 6, 24),
-            new DateTime(2021, 12, 6),
-            new DateTime(2021, 12, 24),
-            new DateTime(2021, 12, 25),
-            new DateTime(2021, 12, 26),
+            new DateTime(2022, 1, 6),
+            new DateTime(2022, 4, 15),
+            new DateTime(2022, 4, 18),
+            new DateTime(2022, 5, 1),
+            new DateTime(2022, 5, 26),
+            new DateTime(2022, 6, 5),
+            new DateTime(2022, 6, 24),
+            new DateTime(2022, 12, 6),
+            new DateTime(2022, 12, 24),
+            new DateTime(2022, 12, 25),
+            new DateTime(2022, 12, 26)
         };
     }
 }

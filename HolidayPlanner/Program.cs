@@ -13,10 +13,7 @@ namespace HolidayPlanner
             Console.WriteLine("Input end date: ");
             var end = Console.ReadLine();
 
-            var result = App.Run(start, end);
-
-            Console.WriteLine(result);
-            Console.ReadLine();
+            App.Run(start, end);
 
         }
     }

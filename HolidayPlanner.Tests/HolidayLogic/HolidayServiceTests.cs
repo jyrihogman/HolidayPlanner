@@ -1,11 +1,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using HolidayPlanner.DateLogic;
+using HolidayPlanner.HolidayLogic;
 using System;
 
 namespace HolidayPlanner.Tests
 {
     [TestClass]
-    public class HolidayPlannerServiceTests
+    public class HolidayServiceTests
     {
 
         [TestMethod]
@@ -14,7 +14,7 @@ namespace HolidayPlanner.Tests
             var startDate = new DateTime(2021, 1, 1);
             var endDate = new DateTime(2021, 1, 20);
 
-            var dateTimeArray = HolidayPlannerService.GetConsumedHolidays(startDate, endDate, "Finland");
+            var dateTimeArray = HolidayService.GetConsumedHolidays(startDate, endDate, "Finland");
 
             Assert.AreEqual(dateTimeArray.Count, 15);
         }
@@ -22,7 +22,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsHolidayValidPositive()
         {
-            var isValid = HolidayPlannerService.IsHolidayValid(45);
+            var isValid = HolidayService.IsHolidayLengthValid(45);
 
             Assert.IsTrue(isValid);
         }
@@ -30,7 +30,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsHolidayValidPositiveMax()
         {
-            var isValid = HolidayPlannerService.IsHolidayValid(50);
+            var isValid = HolidayService.IsHolidayLengthValid(50);
 
             Assert.IsTrue(isValid);
         }
@@ -38,7 +38,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsHolidayValidNegative()
         {
-            var isValid = HolidayPlannerService.IsHolidayValid(51);
+            var isValid = HolidayService.IsHolidayLengthValid(51);
 
             Assert.IsFalse(isValid);
         }
@@ -46,7 +46,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsSundayPositive()
         {
-            var isSunday = HolidayPlannerService.IsSunday(
+            var isSunday = HolidayService.IsSunday(
                 new DateTime(2021, 4, 11));
 
             Assert.IsTrue(isSunday);
@@ -55,7 +55,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsSundayNegative()
         {
-            var isSunday = HolidayPlannerService.IsSunday(
+            var isSunday = HolidayService.IsSunday(
                 new DateTime(2021, 4, 12));
 
             Assert.IsFalse(isSunday);
@@ -65,7 +65,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsNationalHolidayPositive()
         {
-            var isNationalHoliday = HolidayPlannerService.IsNationalHoliday(
+            var isNationalHoliday = HolidayService.IsNationalHoliday(
                 new DateTime(2021, 1, 1), "Finland");
 
             Assert.IsTrue(isNationalHoliday);
@@ -74,7 +74,7 @@ namespace HolidayPlanner.Tests
         [TestMethod]
         public void IsNationalHolidayNegative()
         {
-            var isNationalHoliday = HolidayPlannerService.IsNationalHoliday(
+            var isNationalHoliday = HolidayService.IsNationalHoliday(
                 new DateTime(2021, 1, 4), "Finland");
 
             Assert.IsFalse(isNationalHoliday);
@@ -84,7 +84,7 @@ namespace HolidayPlanner.Tests
         [ExpectedException(typeof(Exception))]
         public void IsNationalHolidayCountryNotSupported()
         {
-            var isNationalHoliday = HolidayPlannerService.IsNationalHoliday(
+            var isNationalHoliday = HolidayService.IsNationalHoliday(
                 new DateTime(2021, 1, 1), "Sweden");
         }
     }
