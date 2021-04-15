@@ -2,11 +2,23 @@
 
 namespace HolidayPlanner
 {
-    public static class App
+    interface IApp
     {
-        public static void Run(string start, string end)
+        void Run(string start, string end);
+    }
+
+    public class App : IApp
+    {
+        private readonly IHolidayPlanner holidayPlanner;
+
+        public App(IHolidayPlanner holidayPlanner)
         {
-            var (result, holidayCount) = HolidayPlanner.ValidateHoliday(start, end);
+            this.holidayPlanner = holidayPlanner;
+        }
+
+        public void Run(string start, string end)
+        {
+            var (result, holidayCount) = holidayPlanner.ValidateHoliday(start, end);
 
             switch (result)
             {

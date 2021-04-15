@@ -12,9 +12,25 @@ namespace HolidayPlanner
         InvalidPeriod
     }
 
-    public static class HolidayPlanner
-    { 
-        public static (ValidationResult, int) ValidateHoliday(string firstInput, string secondInput, string country = "Finland")
+    public interface IHolidayPlanner
+    {
+        (ValidationResult, int) ValidateHoliday(string firstInput, string secondInput, string country = "Finland");
+    }
+
+    public class HolidayPlanner : IHolidayPlanner
+    {
+        private readonly IHolidayService holidayService;
+
+
+        public HolidayPlanner()
+        {}
+
+        public HolidayPlanner(IHolidayService holidayService)
+        {
+            this.holidayService = holidayService;
+        }
+
+        public (ValidationResult, int) ValidateHoliday(string firstInput, string secondInput, string country = "Finland")
         {
             var startDate = DateService.GetDate(firstInput);
             var endDate = DateService.GetDate(secondInput);
@@ -38,11 +54,11 @@ namespace HolidayPlanner
             
         }
 
-        public static (bool, ValidationResult) ValidateHolidayRange(DateTime startDate, DateTime endDate)
+        public (bool, ValidationResult) ValidateHolidayRange(DateTime startDate, DateTime endDate)
         {
-            var isChronological = HolidayService.IsRangeChronological(startDate, endDate);
+            var isChronological = holidayService.IsRangeChronological(startDate, endDate);
 
-            var samePeriod = HolidayService.IsOnSameHolidayPeriod(startDate, endDate);
+            var samePeriod = holidayService.IsOnSameHolidayPeriod(startDate, endDate);
 
             if (samePeriod && isChronological)
                 return (true, ValidationResult.Ok);

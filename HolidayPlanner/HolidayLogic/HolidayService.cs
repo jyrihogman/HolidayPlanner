@@ -11,23 +11,39 @@ namespace HolidayPlanner.HolidayLogic
         public static IReadOnlyCollection<string> SupportedCountries = new [] { Finland };
     }
 
-    public static class HolidayService
+    public interface IHolidayService
+    {
+        bool IsOnSameHolidayPeriod(DateTime start, DateTime end);
+        bool IsRangeChronological(DateTime start, DateTime end);
+    }
+
+    public class HolidayService : IHolidayService
     {
         private const int MaxDayCount = 50;
+        private IDateWrapper dateWrapper;
 
-        public static bool IsRangeChronological(DateTime start, DateTime end)
+        public HolidayService(IDateWrapper dateWrapper)
+        {
+            this.dateWrapper = dateWrapper;
+        }
+
+
+        public bool IsRangeChronological(DateTime start, DateTime end)
         {
             return start < end;
         }
 
-        public static bool IsOnSameHolidayPeriod(DateTime start, DateTime end)
+        public bool IsOnSameHolidayPeriod(DateTime start, DateTime end)
         {
-            if (start < new DateTime(start.Year, 4, 1))
+            var today = dateWrapper.GetToday();
+
+            if (today < new DateTime(today.Year, 4, 1))
             {
-                return end < new DateTime(start.Year, 4, 1);
+                return start > today && start < new DateTime(today.Year, 4, 1) && end < new DateTime(start.Year, 4, 1);
             }
 
-            return end < new DateTime(start.Year + 1, 4, 1);
+            return start > today && start < new DateTime(today.Year + 1, 4, 1) && end < new DateTime(start.Year + 1, 4, 1);
+
         }
 
         public static IReadOnlyCollection<DateTime> GetConsumedHolidays(
@@ -69,5 +85,7 @@ namespace HolidayPlanner.HolidayLogic
                 _ => throw new Exception("Country not supported!"),
             };
         }
+
+        public DateTime GetToday() => DateTime.Now;
     }
 }
