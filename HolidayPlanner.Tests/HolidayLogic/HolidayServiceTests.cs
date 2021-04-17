@@ -1,12 +1,60 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using HolidayPlanner.HolidayLogic;
 using System;
+using HolidayPlanner.DateLogic;
+using Moq;
 
 namespace HolidayPlanner.Tests
 {
     [TestClass]
     public class HolidayServiceTests
     {
+
+        public Mock<IDateWrapper> dateWrapper;
+        private IHolidayService holidayService;
+
+        [TestInitialize]
+        public void SetupTest()
+        {
+            dateWrapper = new Mock<IDateWrapper>();
+            dateWrapper.Setup(t => t.GetToday())
+                .Returns(new DateTime(2021, 5, 1));
+
+            holidayService = new HolidayService(dateWrapper.Object);
+        }
+
+        [TestMethod]
+        public void IsOnSameHolidayPeriod()
+        {
+            var startDate = new DateTime(2021, 5, 3);
+            var endDate = new DateTime(2021, 5, 20);
+
+            var isSamePeriod = holidayService.IsOnSameHolidayPeriod(startDate, endDate);
+
+            Assert.IsTrue(isSamePeriod);
+        }
+
+        [TestMethod]
+        public void IsOnSameHolidayPeriodPast()
+        {
+            var startDate = new DateTime(2021, 3, 1);
+            var endDate = new DateTime(2021, 4, 20);
+
+            var isSamePeriod = holidayService.IsOnSameHolidayPeriod(startDate, endDate);
+
+            Assert.IsFalse(isSamePeriod);
+        }
+
+        [TestMethod]
+        public void IsOnSameHolidayPeriodNegative()
+        {
+            var startDate = new DateTime(2022, 3, 30);
+            var endDate = new DateTime(2022, 4, 5);
+
+            var isSamePeriod = holidayService.IsOnSameHolidayPeriod(startDate, endDate);
+
+            Assert.IsFalse(isSamePeriod);
+        }
 
         [TestMethod]
         public void GetConsumedHolidays()

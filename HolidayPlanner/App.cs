@@ -32,7 +32,7 @@ namespace HolidayPlanner
                     Console.WriteLine("Dates are not in a chronological order");
                     break;
                 case ValidationResult.InvalidPeriod:
-                    Console.WriteLine("Dates are not in the same holiday period");
+                    Console.WriteLine("Dates are not in the current holiday period");
                     break;
             }
         }

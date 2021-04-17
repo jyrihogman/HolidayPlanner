@@ -4,6 +4,13 @@ using System.Text;
 
 namespace HolidayPlanner.DateLogic
 {
+
+    // MVP for the product is specified so that it only works for Finnish holidays in the current period
+
+    // In the future we should use a 3rd party library to get national holidays for multiple countries
+    // Or we can have a scheduled serverless lambda, that calculates the national holidays for supported countries
+    // When invoked, and deletes dates from holiday periods that are older than a year for example
+    // And stores the newly calculated national holidays on DynamoDB, S3 or a standard SQL database.
     public static class NationalHolidays
     {
         public static List<DateTime> FinnishHolidays = new List<DateTime>

@@ -37,12 +37,22 @@ namespace HolidayPlanner.HolidayLogic
         {
             var today = dateWrapper.GetToday();
 
-            if (today < new DateTime(today.Year, 4, 1))
+            // Start should be greater than or equal than today 
+            if (start < today)
             {
-                return start > today && start < new DateTime(today.Year, 4, 1) && end < new DateTime(start.Year, 4, 1);
+                return false;
             }
 
-            return start > today && start < new DateTime(today.Year + 1, 4, 1) && end < new DateTime(start.Year + 1, 4, 1);
+            // If we current date < April 1st, the current holiday period ends on 30th of March
+            if (today < new DateTime(today.Year, 4, 1))
+            {
+                // Start should be smaller than 1st on April AND end should be smaller than 1st of April as well.
+                return start < new DateTime(today.Year, 4, 1) && end < new DateTime(start.Year, 4, 1);
+            }
+
+            // Current date > 1st of April, so the current holiday period ends next year on March 30th.
+            // Start should smaller than 1st on April NEXT YEAR AND end should be smaller than 1st of April NEXT YEAR 
+            return start < new DateTime(today.Year + 1, 4, 1) && end < new DateTime(today.Year + 1, 4, 1);
 
         }
 
